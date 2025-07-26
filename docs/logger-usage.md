@@ -31,7 +31,7 @@ logger.error('Erro ocorreu');
 
 ### Development
 
-```
+```text
 [18:30:04 - 26/07/2025] INFO: [30] 🚀 Server is running on port 3000
 [18:30:04 - 26/07/2025] WARN: [40] This is a warning message
 [18:30:04 - 26/07/2025] ERROR: [50] This is an error message

@@ -59,6 +59,13 @@ docker run -d -p 6379:6379 redis:7-alpine
 npm run dev
 ```
 
+## 📚 Documentação
+
+Para informações detalhadas sobre o projeto, consulte nossa documentação:
+
+- **[Guia de Dependências](./docs/dependencies-guide.md)** - Todas as dependências e como utilizá-las
+- **[Sistema de Logging](./docs/logger-usage.md)** - Configuração e uso do logger
+
 ## 📋 Scripts Disponíveis
 
 ```bash
@@ -157,24 +164,24 @@ socket.emit('subscribe', { downloadId: 'uuid-v4' });
 
 ```javascript
 // Progresso do download
-socket.on('progress', (data) => {
+socket.on('progress', data => {
   console.log(`${data.id}: ${data.progress}%`);
 });
 
 // Download concluído
-socket.on('completed', (data) => {
+socket.on('completed', data => {
   console.log(`Download pronto: ${data.id}`);
 });
 
 // Erro no download
-socket.on('error', (data) => {
+socket.on('error', data => {
   console.error(`Erro: ${data.message}`);
 });
 ```
 
 ## 🏗️ Arquitetura
 
-```
+```text
 src/
 ├── domain/              # Entidades e regras de negócio
 │   ├── entities/
@@ -217,14 +224,14 @@ npm run test:coverage
 
 ### Variáveis de Ambiente
 
-| Variável | Descrição | Padrão |
-|----------|-----------|---------|
-| `NODE_ENV` | Ambiente de execução | `development` |
-| `PORT` | Porta do servidor | `3000` |
-| `REDIS_HOST` | Host do Redis | `localhost` |
-| `REDIS_PORT` | Porta do Redis | `6379` |
-| `QUEUE_CONCURRENCY` | Downloads simultâneos | `5` |
-| `AUDIO_QUALITY` | Qualidade do áudio | `320` |
+| Variável            | Descrição             | Padrão        |
+| ------------------- | --------------------- | ------------- |
+| `NODE_ENV`          | Ambiente de execução  | `development` |
+| `PORT`              | Porta do servidor     | `3000`        |
+| `REDIS_HOST`        | Host do Redis         | `localhost`   |
+| `REDIS_PORT`        | Porta do Redis        | `6379`        |
+| `QUEUE_CONCURRENCY` | Downloads simultâneos | `5`           |
+| `AUDIO_QUALITY`     | Qualidade do áudio    | `320`         |
 
 ### Redis
 
@@ -288,7 +295,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para de
 
 ## 👨‍💻 Autor
 
-**Gabriel Finotti**
+Gabriel Finotti
 
 - GitHub: [@GabrielFinotti](https://github.com/GabrielFinotti)
 
