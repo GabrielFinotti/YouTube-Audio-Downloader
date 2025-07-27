@@ -1,53 +1,45 @@
 # 🎵 YouTube Audio Downloader API
 
-Uma API REST moderna e robusta para download de áudio do YouTube com gerenciamento de filas e WebSocket para progresso em tempo real.
-
 [![Build Status](https://github.com/GabrielFinotti/YouTube-Audio-Downloader/workflows/CI/badge.svg)](https://github.com/GabrielFinotti/YouTube-Audio-Downloader/actions)
 [![Coverage Status](https://codecov.io/gh/GabrielFinotti/YouTube-Audio-Downloader/branch/main/graph/badge.svg)](https://codecov.io/gh/GabrielFinotti/YouTube-Audio-Downloader)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white)](https://redis.io/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+API REST moderna para download de áudio do YouTube com sistema de filas, WebSocket em tempo real e arquitetura DDD.
 
 ## ✨ Características
 
-- 🎯 **Download de Áudio de Alta Qualidade** - Suporte para múltiplos formatos (MP3, AAC, OGG)
-- 🔄 **Gerenciamento de Filas** - Sistema de filas com BullMQ e Redis para processamento assíncrono
-- ⚡ **WebSocket em Tempo Real** - Progresso de download em tempo real via Socket.IO
-- �️ **Segurança Robusta** - Rate limiting, validação de entrada e tratamento de erros
-- � **Monitoramento** - Logs estruturados com Pino e métricas de performance
-- 🏗️ **Arquitetura Limpa** - Domain-Driven Design com TypeScript
-- � **Configuração Flexível** - Configuração via variáveis de ambiente
-- 🚀 **Performance Otimizada** - Compressão, cache e processamento eficiente
+- 🚀 **Alta Performance**: Processamento de até 5 downloads simultâneos
+- 📡 **Tempo Real**: Progresso via WebSocket com Socket.io
+- 🏗️ **Arquitetura DDD**: Domain-Driven Design para escalabilidade
+- 📦 **Queue System**: BullMQ + Redis para gerenciamento robusto
+- 🎯 **TypeScript**: Tipagem estática e desenvolvimento seguro
+- 🧪 **Testes**: Jest com cobertura completa
+- 🔒 **Segurança**: Rate limiting, validação e sanitização
+- 🎵 **Qualidade**: MP3 320kbps para máxima fidelidade
 
-## 🏗️ Arquitetura
+## 🛠️ Stack Tecnológica
 
-O projeto segue os princípios da **Arquitetura Limpa** e **Domain-Driven Design**:
+- **Runtime**: Node.js 18+ com TypeScript
+- **Framework**: Express.js
+- **Build**: tsup + tsx para desenvolvimento rápido
+- **Queue**: BullMQ + Redis
+- **WebSocket**: Socket.io
+- **Testes**: Jest + Supertest
+- **Audio**: ytdl-core + FFmpeg
+- **Linting**: ESLint + Prettier
+- **CI/CD**: GitHub Actions
 
-```
-src/
-├── domain/                 # Regras de negócio e entidades
-│   ├── entities/          # Entidades do domínio
-│   ├── repositories/      # Interfaces dos repositórios
-│   └── services/         # Interfaces dos serviços
-├── application/           # Casos de uso e DTOs
-│   ├── dtos/             # Data Transfer Objects
-│   └── use-cases/        # Casos de uso da aplicação
-└── infrastructure/       # Implementações técnicas
-    ├── cache/            # Redis e BullMQ
-    ├── http/             # Controllers, rotas e middleware
-    ├── logging/          # Sistema de logs
-    └── youtube/          # Implementação do serviço YouTube
-```
-
-## 🚀 Instalação e Execução
+## 🚀 Instalação
 
 ### Pré-requisitos
 
-- **Node.js** 18+
-- **Redis** (para filas e cache)
-- **FFmpeg** (instalado automaticamente)
+- Node.js 18.0.0 ou superior
+- Redis 6.0 ou superior
+- FFmpeg instalado no sistema
 
-### Instalação
+### Setup Local
 
 ```bash
 # Clone o repositório
@@ -59,96 +51,101 @@ npm install
 
 # Configure as variáveis de ambiente
 cp .env.example .env
+
+# Execute o Redis (Docker)
+docker run -d -p 6379:6379 redis:7-alpine
+
+# Inicie o desenvolvimento
+npm run dev
 ```
 
-### Configuração
+## 📚 Documentação
 
-Crie um arquivo `.env` com as seguintes variáveis:
+Para informações detalhadas sobre o projeto, consulte nossa documentação:
 
-```env
-# Servidor
-PORT=3001
-HOST=0.0.0.0
-NODE_ENV=development
+- **[Guia de Dependências](./docs/dependencies-guide.md)** - Todas as dependências e como utilizá-las
+- **[Sistema de Logging](./docs/logger-usage.md)** - Configuração e uso do logger
 
-# Redis
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=
-REDIS_DB=0
-
-# Frontend (CORS)
-FRONTEND_URL=http://localhost:3000
-
-# Logs
-LOG_LEVEL=info
-```
-
-### Executar
+## 📋 Scripts Disponíveis
 
 ```bash
-# Desenvolvimento (com hot reload)
+# Desenvolvimento com hot reload
 npm run dev
 
-# Produção
+# Build para produção
 npm run build
+
+# Executar produção
 npm start
 
 # Testes
 npm test
+npm run test:watch
 npm run test:coverage
+
+# Linting e formatação
+npm run lint
+npm run lint:fix
+npm run format
+
+# Verificação de tipos
+npm run type-check
 ```
 
-## 📡 API Endpoints
+## 🌐 API Endpoints
 
-### Health Check
+### Adicionar Download à Fila
 
-```
-GET /api/health
-```
-
-Verifica o status da API.
-
-### Downloads
-
-#### Criar Download
-
-```
+```http
 POST /api/downloads
 Content-Type: application/json
-X-Socket-ID: <socket-id>
 
 {
-  "url": "https://youtube.com/watch?v=...",
-  "quality": "highest",  // "highest" | "192" | "128" | "64"
-  "format": "mp3"        // "mp3" | "aac" | "ogg"
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 }
 ```
 
-#### Status do Job
+**Resposta:**
 
-```
-GET /api/downloads/:jobId
-```
-
-#### Controle de Jobs
-
-```
-PUT /api/downloads/:jobId/pause    # Pausar
-PUT /api/downloads/:jobId/resume   # Retomar
-DELETE /api/downloads/:jobId       # Cancelar
+```json
+{
+  "id": "uuid-v4",
+  "status": "queued",
+  "position": 3
+}
 ```
 
-#### Download do Arquivo
+### Verificar Status do Download
 
-```
-GET /api/downloads/:jobId/file
+```http
+GET /api/downloads/:id
 ```
 
-#### Estatísticas da Fila
+**Resposta:**
 
+```json
+{
+  "id": "uuid-v4",
+  "status": "processing",
+  "progress": 45,
+  "metadata": {
+    "title": "Rick Astley - Never Gonna Give You Up",
+    "duration": "3:32",
+    "thumbnail": "https://..."
+  }
+}
 ```
-GET /api/downloads/queue/stats
+
+### Baixar Arquivo
+
+```http
+GET /api/downloads/:id/file
+```
+
+### Confirmar Download (Remove do Servidor)
+
+```http
+DELETE /api/downloads/:id
 ```
 
 ## 🔌 WebSocket Events
@@ -156,84 +153,53 @@ GET /api/downloads/queue/stats
 ### Cliente → Servidor
 
 ```javascript
-// Conectar ao job específico
-socket.emit('join-download', jobId);
+// Conectar ao namespace de downloads
+const socket = io('/downloads');
 
-// Sair do job
-socket.emit('leave-download', jobId);
-
-// Ping/Pong para manter conexão
-socket.emit('ping');
+// Monitorar progresso específico
+socket.emit('subscribe', { downloadId: 'uuid-v4' });
 ```
 
 ### Servidor → Cliente
 
 ```javascript
 // Progresso do download
-socket.on('download-progress', (data) => {
-  console.log(`Progresso: ${data.progress}%`);
-  console.log(`Velocidade: ${data.speed}`);
-  console.log(`Tempo estimado: ${data.estimatedTime}`);
+socket.on('progress', data => {
+  console.log(`${data.id}: ${data.progress}%`);
 });
 
-// Job iniciado
-socket.on('download-started', (data) => {
-  console.log(`Download iniciado: ${data.jobId}`);
+// Download concluído
+socket.on('completed', data => {
+  console.log(`Download pronto: ${data.id}`);
 });
 
-// Job concluído
-socket.on('download-completed', (data) => {
-  console.log(`Download concluído: ${data.jobId}`);
+// Erro no download
+socket.on('error', data => {
+  console.error(`Erro: ${data.message}`);
 });
-
-// Job com erro
-socket.on('download-failed', (data) => {
-  console.log(`Erro: ${data.error}`);
-});
-
-// Resposta do ping
-socket.on('pong');
 ```
 
-## 🛡️ Rate Limiting
+## 🏗️ Arquitetura
 
-### Limites Aplicados
-
-- **Geral**: 100 requests por 15 minutos por IP
-- **Downloads**: 5 downloads por minuto por IP
-- **Controle**: 30 operações por minuto por IP
-
-### Headers de Rate Limit
-
+```text
+src/
+├── domain/              # Entidades e regras de negócio
+│   ├── entities/
+│   ├── value-objects/
+│   └── services/
+├── application/         # Casos de uso
+│   ├── use-cases/
+│   ├── dtos/
+│   └── mappers/
+├── infrastructure/     # Implementações externas
+│   ├── repositories/
+│   ├── queue/
+│   └── external/
+└── interface/          # Controllers e WebSocket
+    ├── http/
+    ├── websocket/
+    └── middleware/
 ```
-X-RateLimit-Limit: 5
-X-RateLimit-Remaining: 4
-X-RateLimit-Reset: 1640995200
-```
-
-## 📊 Monitoramento e Logs
-
-### Logs Estruturados
-
-A API utiliza **Pino** para logs estruturados em JSON:
-
-```json
-{
-  "level": 30,
-  "time": 1640995200000,
-  "msg": "Download iniciado com sucesso",
-  "jobId": "uuid-here",
-  "url": "https://youtube.com/...",
-  "socketId": "socket-id"
-}
-```
-
-### Métricas Disponíveis
-
-- Jobs na fila (waiting, active, completed, failed)
-- Tempo de processamento
-- Taxa de sucesso/falha
-- Uso de memória e CPU
 
 ## 🧪 Testes
 
@@ -241,179 +207,97 @@ A API utiliza **Pino** para logs estruturados em JSON:
 # Executar todos os testes
 npm test
 
-# Testes com watch mode
+# Testes em modo watch
 npm run test:watch
 
-# Coverage report
+# Cobertura de código
 npm run test:coverage
-
-# Lint
-npm run lint
-npm run lint:fix
 ```
 
-## 🚀 Deploy
+### Estrutura de Testes
 
-### Docker
+- **Unit Tests**: Testes de domínio e casos de uso
+- **Integration Tests**: Testes de API e banco de dados
+- **E2E Tests**: Testes completos de fluxo
 
-```dockerfile
-FROM node:18-alpine
+## 🔧 Configuração
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
+### Variáveis de Ambiente
 
-COPY dist ./dist
-EXPOSE 3001
+| Variável            | Descrição             | Padrão        |
+| ------------------- | --------------------- | ------------- |
+| `NODE_ENV`          | Ambiente de execução  | `development` |
+| `PORT`              | Porta do servidor     | `3000`        |
+| `REDIS_HOST`        | Host do Redis         | `localhost`   |
+| `REDIS_PORT`        | Porta do Redis        | `6379`        |
+| `QUEUE_CONCURRENCY` | Downloads simultâneos | `5`           |
+| `AUDIO_QUALITY`     | Qualidade do áudio    | `320`         |
 
-CMD ["node", "dist/app.js"]
-```
+### Redis
 
-### Docker Compose
+```bash
+# Via Docker
+docker run -d -p 6379:6379 redis:7-alpine
 
-```yaml
+# Via Docker Compose
 version: '3.8'
 services:
-  api:
-    build: .
-    ports:
-      - "3001:3001"
-    environment:
-      - REDIS_HOST=redis
-      - NODE_ENV=production
-    depends_on:
-      - redis
-
   redis:
-    image: redis:alpine
+    image: redis:7-alpine
     ports:
       - "6379:6379"
 ```
 
-## 🔧 Scripts Disponíveis
+## 📊 Monitoramento
 
-```json
-{
-  "dev": "tsx watch src/app.ts",
-  "build": "tsup",
-  "start": "node dist/app.js",
-  "test": "jest",
-  "test:watch": "jest --watch",
-  "test:coverage": "jest --coverage",
-  "lint": "eslint src/**/*.ts",
-  "lint:fix": "eslint src/**/*.ts --fix",
-  "type-check": "tsc --noEmit",
-  "clean": "rimraf dist"
-}
+### Health Check
+
+```http
+GET /health
 ```
 
-## 🛠️ Tecnologias Utilizadas
+### Métricas da Fila
 
-### Core
+```http
+GET /api/queue/stats
+```
 
-- **Node.js** - Runtime JavaScript
-- **TypeScript** - Superset tipado do JavaScript
-- **Express** - Framework web minimalista
+### Logs
 
-### Arquitetura & Patterns
-
-- **Domain-Driven Design** - Modelagem do domínio
-- **Clean Architecture** - Separação de responsabilidades
-- **SOLID Principles** - Princípios de design de software
-
-### Infraestrutura
-
-- **BullMQ** - Gerenciamento de filas
-- **Redis** - Cache e persistência de filas
-- **Socket.IO** - WebSocket em tempo real
-- **Pino** - Logging estruturado
-
-### Audio Processing
-
-- **@distube/ytdl-core** - Download do YouTube
-- **fluent-ffmpeg** - Processamento de áudio
-- **node-ffmpeg-installer** - FFmpeg automático
-
-### Segurança & Validação
-
-- **Helmet** - Headers de segurança
-- **express-rate-limit** - Rate limiting
-- **Joi** - Validação de esquemas
-- **CORS** - Configuração de CORS
-
-### Desenvolvimento
-
-- **Jest** - Framework de testes
-- **ESLint** - Linting de código
-- **Prettier** - Formatação de código
-- **Husky** - Git hooks
-- **tsup** - Bundler TypeScript
+```bash
+# Logs estruturados com Pino
+npm start | pnpm dlx pino-pretty
+```
 
 ## 🤝 Contribuição
 
 1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
+2. Crie uma branch: `git checkout -b feature/nova-funcionalidade`
+3. Commit: `git commit -m 'feat: adiciona nova funcionalidade'`
+4. Push: `git push origin feature/nova-funcionalidade`
 5. Abra um Pull Request
 
-### Convenções
+### Commits Convencionais
 
-- **Commits**: Seguir [Conventional Commits](https://www.conventionalcommits.org/)
-- **Code Style**: ESLint + Prettier
-- **Tests**: Cobertura mínima de 80%
-- **TypeScript**: Strict mode habilitado
+Este projeto segue o padrão de [Conventional Commits](https://www.conventionalcommits.org/):
 
-## 📝 Changelog
+- `feat:` Nova funcionalidade
+- `fix:` Correção de bug
+- `docs:` Documentação
+- `style:` Formatação
+- `refactor:` Refatoração
+- `test:` Testes
+- `chore:` Tarefas de manutenção
 
-### v0.1.0 (2025-01-26)
+## 📝 Licença
 
-#### ✨ Features
-
-- Sistema completo de download de áudio do YouTube
-- API REST com TypeScript e Clean Architecture
-- WebSocket para progresso em tempo real
-- Sistema de filas com BullMQ e Redis
-- Rate limiting e validação robusta
-- Logs estruturados com Pino
-- Suporte a múltiplos formatos de áudio
-- Controle de jobs (pausar, retomar, cancelar)
-- Métricas e monitoramento
-- Testes unitários com Jest
-
-#### 🛡️ Security
-
-- Headers de segurança com Helmet
-- Validação de entrada com Joi
-- Rate limiting por IP
-- Sanitização de nomes de arquivo
-- CORS configurável
-
-#### 🏗️ Architecture
-
-- Domain-Driven Design
-- Dependency Injection
-- Repository Pattern
-- Use Cases Pattern
-- Clean Architecture layers
-
-## � Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## 👨‍💻 Autor
 
-**Gabriel Finotti**
+Gabriel Finotti
 
 - GitHub: [@GabrielFinotti](https://github.com/GabrielFinotti)
-- LinkedIn: [Gabriel Finotti](https://linkedin.com/in/gabriel-finotti)
-
-## 🙏 Agradecimentos
-
-- [ytdl-core](https://github.com/distube/ytdl-core) pela biblioteca de download
-- [BullMQ](https://github.com/taskforcesh/bullmq) pelo sistema de filas
-- [Socket.IO](https://socket.io/) pela comunicação em tempo real
-- Comunidade open source por todas as ferramentas incríveis
 
 ---
 
