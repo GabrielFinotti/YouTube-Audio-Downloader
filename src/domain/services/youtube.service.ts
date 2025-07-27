@@ -18,7 +18,7 @@ export interface IYouTubeService {
     url: string,
     quality: string,
     progressCallback: (progress: number) => void,
-    abortSignal?: unknown
+    abortSignal?: AbortSignal
   ): Promise<Buffer>;
 
   /**
