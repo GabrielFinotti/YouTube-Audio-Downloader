@@ -1,23 +1,24 @@
-import { config } from 'dotenv';
-import express from 'express';
-import cors from 'cors';
-import logger from '@infrastructure/logging/logger';
+// Arquivo temporário para testar o setup
+console.log('🚀 YouTube Audio Downloader API - Setup Test');
+console.log('✅ TypeScript compilation working');
+console.log('✅ tsx hot reload working');
 
-config();
+// Teste de importação ESM
+import { resolve } from 'path';
 
-const app = express();
+const tempDir = resolve(process.cwd(), 'temp');
+console.log(`📁 Temp directory: ${tempDir}`);
 
-app.use(express.json());
-app.use(cors({ origin: '*' }));
-
-const startServer = async (): Promise<void> => {
-  try {
-    app.listen(process.env.PORT, () => {
-      logger.info(`Server is running on port ${process.env.PORT}`);
-    });
-  } catch (error) {
-    logger.error('Error starting server:', error);
-  }
+// Teste de async/await
+const testAsync = async (): Promise<void> => {
+  console.log('⏳ Testing async functionality...');
+  await new Promise(resolve => setTimeout(resolve, 100));
+  console.log('✅ Async/await working correctly');
 };
 
-startServer();
+// Execução
+void testAsync();
+
+export default {
+  message: 'Setup test completed successfully!',
+};

@@ -1,5 +1,4 @@
-import { defineConfig } from 'tsup';
-import path from 'path';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -9,21 +8,16 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   minify: true,
-  dts: false,
+  dts: false, // Não precisamos de .d.ts para API
   splitting: false,
   bundle: true,
   treeshake: true,
-  shims: true,
-  external: ['fluent-ffmpeg', 'node-ffmpeg-installer'],
-  esbuildOptions: options => {
-    options.alias = {
-      '@domain': path.resolve(__dirname, 'src/domain'),
-      '@infrastructure': path.resolve(__dirname, 'src/infrastructure'),
-      '@application': path.resolve(__dirname, 'src/application'),
-      '@types': path.resolve(__dirname, 'src/types'),
-    };
-  },
+  shims: true, // Para compatibilidade ESM/CJS
+  external: [
+    'fluent-ffmpeg',
+    'node-ffmpeg-installer'
+  ],
   onSuccess: async () => {
-    console.log('✅ Build concluído com sucesso!');
-  },
-});
+    console.log('✅ Build concluído com sucesso!')
+  }
+})
