@@ -1,7 +1,7 @@
 {
   "name": "youtube-audio-downloader",
   "version": "1.0.0",
-  "description": "[![Build Status](https://github.com/GabrielFinotti/YouTube-Audio-Downloader/workflows/CI/badge.svg)](https://github.com/GabrielFinotti/YouTube-Audio-Downloader/actions)\r [![Coverage Status](https://codecov.io/gh/GabrielFinotti/YouTube-Audio-Downloader/branch/main/graph/badge.svg)](https://codecov.io/gh/GabrielFinotti/YouTube-Audio-Downloader)\r [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)\r [![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)\r [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+  "description": "API REST moderna para download de áudio do YouTube com sistema de filas, WebSocket em tempo real e arquitetura DDD.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
