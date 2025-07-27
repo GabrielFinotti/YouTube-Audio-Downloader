@@ -31,14 +31,14 @@ export class AddDownloadJobUseCase {
     try {
       // Validar URL do YouTube
       if (!this.youtubeService.validateUrl(dto.url)) {
-        throw new Error('URL invalida. Deve ser um link do YouTube.');
+        throw new Error('URL inválida. Deve ser um link do YouTube.');
       }
 
       // Verificar se não há muitos downloads ativos
       const activeJobs = await this.downloadQueueRepository.getActiveJobs();
       if (activeJobs.length >= 5) {
         throw new Error(
-          'Limite de downloads simultaneos atingido (5). Tente novamente em alguns minutos.'
+          'Limite de downloads simultâneos atingido (5). Tente novamente em alguns minutos.'
         );
       }
 
@@ -69,7 +69,7 @@ export class AddDownloadJobUseCase {
           title: metadata.title,
           socketId: dto.socketId,
         },
-        'Job de download adicionado a fila'
+        'Job de download adicionado à fila'
       );
 
       // Retornar status do job

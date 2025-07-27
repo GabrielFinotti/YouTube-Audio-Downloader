@@ -119,11 +119,11 @@ export class DownloaderQueue implements IDownloadQueueRepository {
 
       logger.info(
         { jobId: job.id, url: job.youtubeUrl },
-        'Job adicionado a fila'
+        'Job adicionado à fila'
       );
       return bullJob.id as string;
     } catch (error) {
-      logger.error({ error, jobId: job.id }, 'Erro ao adicionar job a fila');
+      logger.error({ error, jobId: job.id }, 'Erro ao adicionar job à fila');
       throw error;
     }
   }
@@ -268,7 +268,7 @@ export class DownloaderQueue implements IDownloadQueueRepository {
         failed: stats.failed || 0,
       };
     } catch (error) {
-      logger.error({ error }, 'Erro ao buscar estatisticas da fila');
+      logger.error({ error }, 'Erro ao buscar estatísticas da fila');
       return { waiting: 0, active: 0, completed: 0, failed: 0 };
     }
   }
@@ -306,7 +306,7 @@ export class DownloaderQueue implements IDownloadQueueRepository {
         jobId,
         progress: 5,
         phase: 'fetching',
-        message: 'Obtendo informacoes do video...',
+        message: 'Obtendo informações do vídeo...',
       });
 
       // Simular delay anti-rate-limit
@@ -317,7 +317,7 @@ export class DownloaderQueue implements IDownloadQueueRepository {
         jobId,
         progress: 100,
         phase: 'completed',
-        message: 'Download concluido!',
+        message: 'Download concluído!',
       });
 
       logger.info({ jobId }, 'Download processado com sucesso');

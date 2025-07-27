@@ -14,7 +14,7 @@ export default defineConfig({
   bundle: true,
   treeshake: true,
   shims: true,
-  external: ['fluent-ffmpeg', 'ffmpeg-static'],
+  external: ['fluent-ffmpeg', 'node-ffmpeg-installer'],
   esbuildOptions: options => {
     options.alias = {
       '@domain': path.resolve(__dirname, 'src/domain'),
@@ -24,6 +24,6 @@ export default defineConfig({
     };
   },
   onSuccess: async () => {
-    console.log('Build concluido com sucesso!');
+    console.log('✅ Build concluído com sucesso!');
   },
 });

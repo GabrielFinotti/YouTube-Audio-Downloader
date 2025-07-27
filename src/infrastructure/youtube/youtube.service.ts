@@ -1,15 +1,14 @@
 import ytdl from '@distube/ytdl-core';
 import ffmpeg from 'fluent-ffmpeg';
-import ffmpegStatic from 'ffmpeg-static';
+// @ts-ignore - Tipos não disponíveis
+import ffmpegStatic from 'node-ffmpeg-installer';
 import { PassThrough } from 'stream';
 import { AudioMetadata } from '@domain/entities/download-job.entity.js';
 import { IYouTubeService } from '@domain/services/youtube.service.js';
 import logger from '@infrastructure/logging/index.js';
 
-// Configurar FFmpeg - usa o binário estático ou o FFmpeg do sistema
-if (ffmpegStatic) {
-  ffmpeg.setFfmpegPath(ffmpegStatic);
-}
+// Configurar FFmpeg
+ffmpeg.setFfmpegPath(ffmpegStatic.path);
 
 export class YouTubeService implements IYouTubeService {
   private readonly userAgents = [
@@ -26,7 +25,7 @@ export class YouTubeService implements IYouTubeService {
 
   async getVideoInfo(url: string, attempt: number = 1): Promise<AudioMetadata> {
     try {
-      logger.info({ url, attempt }, 'Obtendo informacoes do video');
+      logger.info({ url, attempt }, 'Obtendo informações do vídeo');
 
       const info = await ytdl.getInfo(url, {
         requestOptions: {
@@ -82,9 +81,9 @@ export class YouTubeService implements IYouTubeService {
         error instanceof Error ? error.message : 'Erro desconhecido';
       logger.error(
         { url, error: errorMessage, attempt },
-        'Erro ao obter informacoes do video apos 3 tentativas'
+        'Erro ao obter informações do vídeo após 3 tentativas'
       );
-      throw new Error(`Erro ao obter informacoes do video: ${errorMessage}`);
+      throw new Error(`Erro ao obter informações do vídeo: ${errorMessage}`);
     }
   }
 
@@ -96,7 +95,7 @@ export class YouTubeService implements IYouTubeService {
     attempt: number = 1
   ): Promise<Buffer> {
     try {
-      logger.info({ url, quality, attempt }, 'Iniciando download de audio');
+      logger.info({ url, quality, attempt }, 'Iniciando download de áudio');
 
       // Delay anti-rate-limit progressivo
       if (attempt > 1) {
@@ -117,7 +116,7 @@ export class YouTubeService implements IYouTubeService {
       const audioFormat = this.selectBestAudioFormat(info.formats, quality);
 
       if (!audioFormat) {
-        throw new Error('Nenhum formato de audio disponivel');
+        throw new Error('Nenhum formato de áudio disponível');
       }
 
       return new Promise((resolve, reject) => {
@@ -158,7 +157,7 @@ export class YouTubeService implements IYouTubeService {
               size: audioBuffer.length,
               totalSize,
             },
-            'Download de audio concluido'
+            'Download de áudio concluído'
           );
           resolve(audioBuffer);
         });
@@ -174,7 +173,7 @@ export class YouTubeService implements IYouTubeService {
         // Timeout de segurança
         setTimeout(() => {
           stream.destroy();
-          reject(new Error('Timeout no download apos 5 minutos'));
+          reject(new Error('Timeout no download após 5 minutos'));
         }, 300000); // 5 minutos máximo
       });
     } catch (error) {
@@ -194,7 +193,7 @@ export class YouTubeService implements IYouTubeService {
 
       logger.error(
         { url, attempt, error: (error as Error).message },
-        'Download falhou apos todas as tentativas'
+        'Download falhou após todas as tentativas'
       );
       throw error;
     }
@@ -209,7 +208,7 @@ export class YouTubeService implements IYouTubeService {
       try {
         logger.info(
           { format, quality, inputSize: audioBuffer.length },
-          'Iniciando conversao de audio'
+          'Iniciando conversão de áudio'
         );
 
         const inputStream = new PassThrough();
@@ -228,7 +227,7 @@ export class YouTubeService implements IYouTubeService {
               inputSize: audioBuffer.length,
               outputSize: convertedBuffer.length,
             },
-            'Conversao de audio concluida'
+            'Conversão de áudio concluída'
           );
           resolve(convertedBuffer);
         });
@@ -242,9 +241,9 @@ export class YouTubeService implements IYouTubeService {
           .on('error', error => {
             logger.error(
               { error: (error as Error).message, format },
-              'Erro na conversao de audio'
+              'Erro na conversão de áudio'
             );
-            reject(new Error(`Erro na conversao: ${(error as Error).message}`));
+            reject(new Error(`Erro na conversão: ${(error as Error).message}`));
           })
           .pipe(outputStream);
 
@@ -253,7 +252,7 @@ export class YouTubeService implements IYouTubeService {
       } catch (error) {
         logger.error(
           { error: (error as Error).message, format },
-          'Erro ao configurar conversao'
+          'Erro ao configurar conversão'
         );
         reject(error);
       }

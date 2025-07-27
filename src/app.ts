@@ -109,7 +109,7 @@ app.use((req, _res, next) => {
       ip: req.ip,
       userAgent: req.get('User-Agent'),
     },
-    'Nova requisicao HTTP'
+    'Nova requisição HTTP'
   );
   next();
 });
@@ -141,7 +141,7 @@ app.use((error: Error, req: Request, res: Response) => {
       url: req.url,
       ip: req.ip,
     },
-    'Erro nao tratado na aplicacao'
+    'Erro não tratado na aplicação'
   );
 
   res.status(500).json({
@@ -158,7 +158,7 @@ app.use((error: Error, req: Request, res: Response) => {
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Rota nao encontrada',
+    message: 'Rota não encontrada',
     path: req.originalUrl,
   });
 });
@@ -218,13 +218,13 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 process.on('uncaughtException', error => {
   logger.fatal(
     { error: error.message, stack: error.stack },
-    'Excecao nao capturada'
+    'Exceção não capturada'
   );
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  logger.fatal({ reason, promise }, 'Promise rejeitada nao tratada');
+  logger.fatal({ reason, promise }, 'Promise rejeitada não tratada');
   process.exit(1);
 });
 
@@ -238,5 +238,5 @@ server.listen(PORT, () => {
     'Servidor iniciado com sucesso'
   );
 
-  logger.info('YouTube Audio Downloader API esta rodando com sucesso');
+  logger.info('🎵 YouTube Audio Downloader API está rodando!');
 });
