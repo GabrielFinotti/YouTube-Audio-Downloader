@@ -43,7 +43,7 @@ export class DownloadController {
       if (!socketId) {
         res.status(400).json({
           success: false,
-          message: 'Socket ID é obrigatório',
+          message: 'Socket ID e obrigatorio',
         });
         return;
       }
@@ -62,7 +62,7 @@ export class DownloadController {
 
       res.status(201).json({
         success: true,
-        message: 'Download adicionado à fila',
+        message: 'Download adicionado a fila',
         data: result,
       });
     } catch (error) {
@@ -93,7 +93,7 @@ export class DownloadController {
       if (!job) {
         res.status(404).json({
           success: false,
-          message: 'Job não encontrado',
+          message: 'Job nao encontrado',
         });
         return;
       }
@@ -238,12 +238,12 @@ export class DownloadController {
         error instanceof Error ? error.message : 'Erro desconhecido';
       logger.error(
         { error: errorMessage },
-        'Erro ao buscar estatísticas da fila'
+        'Erro ao buscar estatisticas da fila'
       );
 
       res.status(500).json({
         success: false,
-        message: 'Erro ao buscar estatísticas',
+        message: 'Erro ao buscar estatisticas',
       });
     }
   }
@@ -261,7 +261,7 @@ export class DownloadController {
       if (!job) {
         res.status(404).json({
           success: false,
-          message: 'Job não encontrado',
+          message: 'Job nao encontrado',
         });
         return;
       }
@@ -269,7 +269,7 @@ export class DownloadController {
       if (job.status !== 'completed') {
         res.status(400).json({
           success: false,
-          message: 'Download ainda não foi concluído',
+          message: 'Download ainda nao foi concluido',
         });
         return;
       }

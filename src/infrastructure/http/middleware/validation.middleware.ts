@@ -11,8 +11,8 @@ const downloadSchema = Joi.object({
     .messages({
       'string.pattern.base':
         'URL deve ser do YouTube (youtube.com ou youtu.be)',
-      'string.uri': 'URL inválida',
-      'any.required': 'URL é obrigatória',
+      'string.uri': 'URL invalida',
+      'any.required': 'URL e obrigatoria',
     }),
 
   quality: Joi.string()
@@ -38,8 +38,8 @@ const uuidSchema = Joi.string()
   .guid({ version: 'uuidv4' })
   .required()
   .messages({
-    'string.guid': 'ID do job deve ser um UUID válido',
-    'any.required': 'ID do job é obrigatório',
+    'string.guid': 'ID do job deve ser um UUID valido',
+    'any.required': 'ID do job e obrigatorio',
   });
 
 export const validateDownload = (
@@ -65,12 +65,12 @@ export const validateDownload = (
         body: req.body,
         ip: req.ip,
       },
-      'Erro de validação no download'
+      'Erro de validacao no download'
     );
 
     res.status(400).json({
       success: false,
-      message: 'Dados de entrada inválidos',
+      message: 'Dados de entrada invalidos',
       errors: validationErrors,
     });
     return;
@@ -95,12 +95,12 @@ export const validateJobId = (
         error: error.message,
         ip: req.ip,
       },
-      'ID de job inválido'
+      'ID de job invalido'
     );
 
     res.status(400).json({
       success: false,
-      message: 'ID do job inválido',
+      message: 'ID do job invalido',
       error: error.message,
     });
     return;
@@ -127,12 +127,12 @@ export const validateSocketId = (
         headers: req.headers,
         ip: req.ip,
       },
-      'Socket ID ausente ou inválido'
+      'Socket ID ausente ou invalido'
     );
 
     res.status(400).json({
       success: false,
-      message: 'Header X-Socket-ID é obrigatório',
+      message: 'Header X-Socket-ID e obrigatorio',
     });
     return;
   }
@@ -160,7 +160,7 @@ export const validationErrorHandler = (
 
     res.status(400).json({
       success: false,
-      message: 'JSON inválido no corpo da requisição',
+      message: 'JSON invalido no corpo da requisicao',
     });
     return;
   }
@@ -174,7 +174,7 @@ export const validationErrorHandler = (
 
     res.status(400).json({
       success: false,
-      message: 'Erro de validação',
+      message: 'Erro de validacao',
       errors: validationErrors,
     });
     return;

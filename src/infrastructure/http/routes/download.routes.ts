@@ -24,7 +24,7 @@ const controlLimiter = rateLimit({
   max: 30, // 30 operações de controle por minuto
   message: {
     success: false,
-    message: 'Muitas operações. Tente novamente em alguns segundos.',
+    message: 'Muitas operacoes. Tente novamente em alguns segundos.',
   },
 });
 
