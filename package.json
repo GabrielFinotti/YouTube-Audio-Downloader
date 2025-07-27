@@ -1,6 +1,6 @@
 {
   "name": "youtube-audio-downloader",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "API REST para download de áudio do YouTube com queue management e WebSocket para progresso em tempo real",
   "main": "dist/index.js",
   "type": "module",
