@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Executar lint-staged para arquivos staged
+npx lint-staged
+
+# Verificar tipos TypeScript
+npm run type-check

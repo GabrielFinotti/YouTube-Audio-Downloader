@@ -1,0 +1,38 @@
+# Ignore build outputs
+dist/
+build/
+coverage/
+
+# Ignore dependencies
+node_modules/
+
+# Ignore environment files
+.env*
+
+# Ignore logs
+*.log
+
+# Ignore cache directories
+.cache/
+.parcel-cache/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore temp files
+temp/
+tmp/
+
+# Ignore audio files
+*.mp3
+*.mp4
+*.wav
+*.m4a
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore generated files
+*.tsbuildinfo
