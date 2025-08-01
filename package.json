@@ -1,21 +1,108 @@
 {
   "name": "youtube-audio-downloader",
   "version": "1.0.0",
-  "description": "[![Build Status](https://github.com/GabrielFinotti/YouTube-Audio-Downloader/workflows/CI/badge.svg)](https://github.com/GabrielFinotti/YouTube-Audio-Downloader/actions)\r [![Coverage Status](https://codecov.io/gh/GabrielFinotti/YouTube-Audio-Downloader/branch/main/graph/badge.svg)](https://codecov.io/gh/GabrielFinotti/YouTube-Audio-Downloader)\r [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)\r [![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)\r [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
-  "main": "index.js",
+  "description": "API REST moderna para download de áudio do YouTube com sistema de filas, WebSocket em tempo real e arquitetura DDD.",
+  "main": "dist/app.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx src/app.ts",
+    "build": "tsup",
+    "start": "node dist/app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "type-check": "tsc --noEmit",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GabrielFinotti/YouTube-Audio-Downloader.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "keywords": [
+    "youtube",
+    "audio",
+    "downloader",
+    "api",
+    "rest",
+    "websocket",
+    "queue",
+    "ddd",
+    "typescript",
+    "node.js"
+  ],
+  "author": "Gabriel Finotti",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/GabrielFinotti/YouTube-Audio-Downloader/issues"
   },
-  "homepage": "https://github.com/GabrielFinotti/YouTube-Audio-Downloader#readme"
+  "homepage": "https://github.com/GabrielFinotti/YouTube-Audio-Downloader#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "express-rate-limit": "^8.0.1",
+    "compression": "^1.8.1",
+    "helmet": "^8.1.0",
+    "cors": "^2.8.5",
+    "bullmq": "^5.56.9",
+    "redis": "^5.7.0",
+    "ioredis": "^5.7.0",
+    "socket.io": "^4.8.1",
+    "@distube/ytdl-core": "^4.16.12",
+    "yt-dlp-wrap": "^2.3.12",
+    "fluent-ffmpeg": "^2.1.3",
+    "multer": "^2.0.2",
+    "mime-types": "^3.0.1",
+    "zod": "^4.0.14",
+    "class-validator": "^0.14.2",
+    "class-transformer": "^0.5.1",
+    "nanoid": "^5.1.5",
+    "uuid": "^11.1.0",
+    "dotenv": "^17.2.1",
+    "tsyringe": "^4.10.0",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "tsx": "^4.20.3",
+    "tsup": "^8.5.0",
+    "ts-node": "^10.9.2",
+    "@types/node": "^24.1.0",
+    "@types/express": "^5.0.3",
+    "@types/uuid": "^10.0.0",
+    "@types/multer": "^2.0.0",
+    "@types/fluent-ffmpeg": "^2.1.27",
+    "eslint": "^9.32.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "prettier": "^3.6.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.0",
+    "@types/jest": "^30.0.0",
+    "supertest": "^7.1.4",
+    "@types/supertest": "^6.0.3",
+    "nodemon": "^3.1.10",
+    "concurrently": "^9.2.0",
+    "semantic-release": "^23.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
 }
